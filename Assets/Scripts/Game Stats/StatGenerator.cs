@@ -50,7 +50,7 @@ public static class StatGenerator {
 
 	// generates a new player based on the given seed
 	// not giving a seed will generate a random seed before calculating the player
-	public static CharacterStats GeneratePlayer(int seed = int.MaxValue) {
+	public static CharacterStats GenerateCharacter(int seed = int.MaxValue) {
 		// generate random seed
 		if (seed == int.MaxValue) RandomizeSeed();
 		// set seed
