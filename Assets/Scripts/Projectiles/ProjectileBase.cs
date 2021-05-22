@@ -7,7 +7,7 @@ public class ProjectileBase : MonoBehaviour
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
     private float speed = 0.0f;
-    private float damage = 0.0f;
+    private int damage = 0;
     private Vector2 direction = new Vector2(0.0f, 0.0f);
     private PlayerController playerRef = null;
     private bool bHoming = false;
@@ -28,7 +28,7 @@ public class ProjectileBase : MonoBehaviour
         }
     }
 
-    public void UpdateProjectileParameters(float speed_, float damage_, Vector2 direction_, PlayerController playerRef_ = null, bool bHoming_ = false)
+    public void UpdateProjectileParameters(float speed_, int damage_, Vector2 direction_, PlayerController playerRef_ = null, bool bHoming_ = false)
     {
         speed = speed_;
         damage = damage_;
