@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum AttackPattern
+{
+    ONCE,
+    TWICE,
+    TRICE,
+    QUAD,
+    PENTO
+
+}
 public class DecisionCompBase : MonoBehaviour
 {
 
