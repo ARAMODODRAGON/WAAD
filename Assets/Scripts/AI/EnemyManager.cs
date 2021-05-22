@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager instance { get; private set; } = null;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (instance == this) instance = null;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +33,10 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void BeginEncounter(int encounterIndex_)
+    {
+
     }
 }
