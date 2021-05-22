@@ -19,6 +19,15 @@ public class LevelBase : MonoBehaviour
         
         return false;
     }
+
+    public GameObject GetMinOrMaxAtRandom() //Used by decision component for fleeing
+    {
+        int r = Random.Range(0, 100);
+        if (r < 51)
+            return min;
+        else
+            return max;
+    }
 }
 
 
