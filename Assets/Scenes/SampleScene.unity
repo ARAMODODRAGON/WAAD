@@ -288,6 +288,8 @@ MonoBehaviour:
   speed: 100
   bullet: {fileID: 0}
   testFireRate: 30
+  testReloadRate: 0.8
+  testShots: 10
 --- !u!212 &643161901
 SpriteRenderer:
   m_ObjectHideFlags: 0

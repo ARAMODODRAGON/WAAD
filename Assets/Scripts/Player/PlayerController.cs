@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] float speed;
+	float halfSpeed;
+	float currentSpeed;
 
 	public Rigidbody2D rb { get; private set; }
 
@@ -15,12 +17,23 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] GameObject bullet;
 
 	[SerializeField] int testFireRate;
+	[SerializeField] float testReloadRate;
+	float currentReloadTime;
+	[SerializeField] int testShots;
+	int testShotsCurrent;
 	float timerCurrent;
+
+	bool aiming = false;
+	bool reloading = false;
 	// Start is called before the first frame update
 	void Start()
     {
 		rb = GetComponent<Rigidbody2D>();
 		timerCurrent = 1.0f - ((float)testFireRate / 60.0f);
+		halfSpeed = speed / 2.0f;
+
+		testShotsCurrent = testShots;
+		currentReloadTime = testReloadRate;
 	}
 
     // Update is called once per frame
@@ -34,18 +47,26 @@ public class PlayerController : MonoBehaviour
 	{
 		// for physics stuff
 		HandleMovement();
+		HandleRotation();
+		HandleReloading();
 	}
 
 	void HandleInput()
 	{
 		// handle movement inputs
-		moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 		//handle shooting
-		if (Input.GetButton("Jump"))
+		if (Input.GetButton("Fire1"))
 		{
 			HandleShooting();
 		}
+
+		if (Input.GetButtonDown("Fire3") && !Input.GetButton("Fire1"))
+		{
+			reloading = true;
+		}
+
 
 	}
 
@@ -53,28 +74,70 @@ public class PlayerController : MonoBehaviour
 	{
 		if (rb != null)
 		{
-			rb.velocity = moveDir * speed * Time.fixedDeltaTime;
+			rb.velocity = moveDir * currentSpeed * Time.fixedDeltaTime;
 		}
 	}
 
 	void HandleShooting()
 	{
-		if (!hasShot)
+		if (!hasShot && aiming && testShotsCurrent > 0 && !reloading)
 		{
 			Debug.Log("Shot");
+			testShotsCurrent--;
 			//Instantiate(bullet, transform.position, Quaternion.identity);
 			hasShot = true;
 		}
 		else
 		{
 			// start the timer
-
 			timerCurrent -= Time.deltaTime;
 
 			if (timerCurrent <= 0)
 			{
 				timerCurrent = 1.0f - ((float)testFireRate / 60.0f);
 				hasShot = false;
+			}
+		}
+	}
+
+	void HandleRotation()
+	{
+		if (Input.GetButton("Fire2") )
+		{
+
+			aiming = true;
+			//Vector2 objScreenPoint = Camera.main.ScreenToWorldPoint(transform.position);
+			Vector3 mouseScreenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+			Vector2 dir = new Vector2(mouseScreenPoint.x - transform.position.x, mouseScreenPoint.y - transform.position.y);
+
+			transform.up = dir;
+
+			currentSpeed = halfSpeed;
+		}
+		else
+		{
+			aiming = false;
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up), 5.0f * Time.fixedDeltaTime);
+			currentSpeed = speed;
+		}
+
+	}
+
+	void HandleReloading()
+	{
+		// check to see if the player is trying to reload while reloading 
+		if (reloading && testShotsCurrent != testShots)
+		{
+			Debug.Log("Reloading!");
+			reloading = true;
+			currentReloadTime -= Time.deltaTime;
+
+			if (currentReloadTime <= 0)
+			{
+				reloading = false;
+				testShotsCurrent = testShots;
+				currentReloadTime = testReloadRate;
 			}
 		}
 

@@ -25,6 +25,10 @@ public class CameraFollow : MonoBehaviour
 	// how long does it take for the camera to reach target
 	[SerializeField] float cameraTime;
 
+	public List<Transform> targets;
+
+	int currentTarget = 0;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -42,6 +46,7 @@ public class CameraFollow : MonoBehaviour
 				}
 			case CameraStates.Moving:
 				{
+					MoveCamera();
 					break;
 				}
 		}
@@ -49,10 +54,17 @@ public class CameraFollow : MonoBehaviour
 
 	void MoveCamera()
 	{
-		Vector3 target = new Vector3();
+		Vector3 target = targets[currentTarget].position;
 
 		Vector3 smoothTarget = Vector3.SmoothDamp(transform.position, target, ref cameraVelocity, cameraTime);
 
 		transform.position = smoothTarget;
+
+		// stop the camera once it reaches it's target
+		if (Vector3.Distance(transform.position, target) <= tolerance)
+		{
+			state = CameraStates.Locked;
+			currentTarget++;
+		}
 	}
 }
