@@ -43,6 +43,8 @@ public class EnemyManager : MonoBehaviour
             les.Add(es_);
             enemySpawners.Add(key_, les);
         }
+
+        BeginEncounter(0);
     }
 
     //Asks spawners to spawn enemies
@@ -67,7 +69,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     //Called by enemies upon dying
-    public void RemoveEnemyContoller(int index_)
+    public void RemoveEnemy(int index_)
     {
         if (index_ >= 0 && index_ < enemies.Count)
         {
