@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class StatTest : MonoBehaviour {
 
+	[SerializeField] private StatGenerator m_statGenerator;
+
 	public CharacterStats charStats;
 	public WeaponBaseStats weaponBaseStats;
 	public WeaponStats weaponStats;
 
 	private void Awake() {
-		charStats = StatGenerator.GenerateCharacter();
-		weaponBaseStats = StatGenerator.GenerateWeapon();
-		weaponStats = StatGenerator.Calculate(charStats, weaponBaseStats);
+		charStats = m_statGenerator.GenerateCharacter();
+		//weaponBaseStats = StatGenerator.GenerateWeapon();
+		weaponStats = m_statGenerator.Calculate(charStats, weaponBaseStats);
 	}
 }

@@ -9,7 +9,7 @@ public struct WeaponBaseStats {
 
 	public StatScalars damage;
 	public StatScalars firerate;
-	public StatScalars magsize;
+	public int magsize;
 
 	// zero initialized struct
 	public static WeaponBaseStats Null {
@@ -17,7 +17,7 @@ public struct WeaponBaseStats {
 			WeaponBaseStats ws;
 			ws.damage = StatScalars.Null;
 			ws.firerate = StatScalars.Null;
-			ws.magsize = StatScalars.Null;
+			ws.magsize = 0;
 			return ws;
 		}
 	}
@@ -50,22 +50,6 @@ public struct WeaponBaseStats {
 				ss.thirdStat = CharacterStatType.None;
 				return ss;
 			}
-		}
-
-		// calculating based off the given player stat
-		// requires 'cs' not be null
-		public int Value(CharacterStats cs) {
-
-			// add base value
-			int value = baseValue;
-
-			// calculate each stat
-			value += Mathf.CeilToInt(cs[firstStat] * StatGenerator.TierValue(firstTier));
-			value += Mathf.CeilToInt(cs[secondStat] * StatGenerator.TierValue(secondTier));
-			value += Mathf.CeilToInt(cs[thirdStat] * StatGenerator.TierValue(thirdTier));
-
-			// return
-			return value;
 		}
 
 		// implicit cast that returns the base value

@@ -152,6 +152,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04518fbf2a72fcf499223735d82490f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charStats:
+    maxHitpoints: 0
+    strength: 0
+    percision: 0
+    techsavvy: 0
+    science: 0
+    willpower: 0
+    luck: 0
+    stamina: 0
+  weaponBaseStats:
+    damage:
+      baseValue: 3
+      firstTier: 3
+      firstStat: 3
+      secondTier: 4
+      secondStat: 5
+      thirdTier: 1
+      thirdStat: 2
+    firerate:
+      baseValue: 3
+      firstTier: 3
+      firstStat: 7
+      secondTier: 2
+      secondStat: 8
+      thirdTier: 0
+      thirdStat: 0
+    magsize: 0
+  weaponStats:
+    damage: 0
+    firerate: 0
+    magsize: 0
 --- !u!4 &788257982
 Transform:
   m_ObjectHideFlags: 0

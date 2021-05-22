@@ -49,6 +49,7 @@ public struct CharacterStats {
 	public int this[CharacterStatType index] {
 		get {
 			switch (index) {
+				case CharacterStatType.None: return -1;
 				case CharacterStatType.MaxHitpoints: return maxHitpoints;
 				case CharacterStatType.Strength: return strength;
 				case CharacterStatType.Percision: return percision;
@@ -62,6 +63,7 @@ public struct CharacterStats {
 		}
 		set {
 			switch (index) {
+				case CharacterStatType.None: break;
 				case CharacterStatType.MaxHitpoints: maxHitpoints = value; break;
 				case CharacterStatType.Strength: strength = value; break;
 				case CharacterStatType.Percision: percision = value; break;
