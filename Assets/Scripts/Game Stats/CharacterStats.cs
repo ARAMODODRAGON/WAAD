@@ -11,6 +11,7 @@ public struct CharacterStats {
 
 	// ineffective stats
 
+	[Space(3f)]
 	public int strength;
 	public int percision;
 	public int techsavvy;

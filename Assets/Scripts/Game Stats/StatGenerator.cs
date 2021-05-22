@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatScalingTier : byte {
-	None,
-	A, B, C, D
+	None = byte.MaxValue,
+	A = 0, B, C, D
 }
 
 // represents the stats contained within the character base stats class
 public enum CharacterStatType : byte {
-	None,
-	MaxHitpoints,
+	None = byte.MaxValue,
+	MaxHitpoints = 0,
 	Strength,
 	Percision,
 	Techsavvy,
@@ -23,15 +23,36 @@ public enum CharacterStatType : byte {
 [CreateAssetMenu(fileName = "Stat Generator", menuName = "Stat Generator")]
 public class StatGenerator : ScriptableObject {
 
+	//[System.Serializable]
+	//struct DualInt {
+	//	public int min;
+	//	public int max;
+	//	public int RandomRange() {
+	//		return Random.Range(min, max);
+	//	}
+	//}
+
 	[Header("Character Stats")]
 
-	[SerializeField] private int m_baseMaxHitpoints;
+	[SerializeField] private Vector2Int m_characterStatDistribution;
+	[SerializeField] private Vector2Int m_characterStatDistributeRange;
+	[SerializeField] private Vector2Int m_baseMaxHitpoints;
+	[SerializeField] private Vector2Int m_baseStrength;
+	[SerializeField] private Vector2Int m_basePercision;
+	[SerializeField] private Vector2Int m_baseTechsavvy;
+	[SerializeField] private Vector2Int m_baseScience;
+	[SerializeField] private Vector2Int m_baseWillpower;
+	[SerializeField] private Vector2Int m_baseLuck;
+	[SerializeField] private Vector2Int m_baseStamina;
 
 	[Header("Weapon Base Stats")]
 
-	[SerializeField] private int m_baseDamage;
-	[SerializeField] private int m_baseFirerate;
-	[SerializeField] private int m_baseMagsize;
+	[SerializeField] private Vector2Int m_weaponStatDistribution;
+	[SerializeField] private Vector2Int m_weaponStatDistributeRange;
+	[SerializeField] private Vector2Int m_baseDamage;
+	[SerializeField] private Vector2Int m_baseFirerate;
+	[SerializeField] private Vector2Int m_baseMagsize;
+	[SerializeField] private int m_magIterSize;
 
 	[Header("Tier Values")]
 
@@ -82,6 +103,11 @@ public class StatGenerator : ScriptableObject {
 		return ps;
 	}
 
+	// random range shortcut
+	private int RandomRange(Vector2Int range) {
+		return Random.Range(range.x, range.y);
+	}
+
 	// generates a new player based on the given seed
 	// not giving a seed will generate a random seed before calculating the player
 	public CharacterStats GenerateCharacter(int seed = int.MaxValue) {
@@ -91,47 +117,116 @@ public class StatGenerator : ScriptableObject {
 		else Random.InitState(seed);
 
 		// create instance
-		CharacterStats cs = new CharacterStats();
+		CharacterStats cs = CharacterStats.Null;
 
 		// set health
-		cs.maxHitpoints = Random.Range(80, 120);
+		cs.maxHitpoints = RandomRange(m_baseMaxHitpoints);
 
 		// set base stats
-		cs.strength = Random.Range(1, 20);
-		cs.percision = Random.Range(1, 20);
-		cs.techsavvy = Random.Range(1, 20);
-		cs.science = Random.Range(1, 20);
-		cs.willpower = Random.Range(1, 20);
-		cs.luck = Random.Range(1, 20);
-		cs.stamina = Random.Range(1, 20);
+		cs.strength = RandomRange(m_baseStrength);
+		cs.percision = RandomRange(m_basePercision);
+		cs.techsavvy = RandomRange(m_baseTechsavvy);
+		cs.science = RandomRange(m_baseScience);
+		cs.willpower = RandomRange(m_baseWillpower);
+		cs.luck = RandomRange(m_baseLuck);
+		cs.stamina = RandomRange(m_baseStamina);
 
-		// TODO: stat distribution system
-		Debug.LogWarning("No stat distributions");
+		// stat distribution system
+		int begin = 1;
+		int end = cs.Count;
+
+		int points = RandomRange(m_characterStatDistribution);
+		int average = points / (end - begin);
+		int remaining = points % (end - begin);
+		points -= remaining;
+
+		// start distributing points
+		for (int i = begin; (i < end) && (points > 0); i++) {
+			// add random range of points to stat
+			int addedpoints = average + RandomRange(m_characterStatDistributeRange);
+			if (addedpoints < 0) addedpoints = 0;
+			if (addedpoints > points) addedpoints = points;
+			cs[i] = cs[i] + addedpoints;
+			if ((i + 1) == end) cs[i] = cs[i] + remaining;
+
+			// remove points and recalculate average
+			points -= addedpoints;
+			average = points / (end - i);
+		}
 
 		// return
 		return cs;
 	}
 
 	// generates a new weapon based on the given  tier and seed
-	public WeaponBaseStats GenerateWeapon(int tier = 1, int seed = int.MaxValue) {
+	public WeaponBaseStats GenerateWeapon(int tier = int.MaxValue, int seed = int.MaxValue) {
+		// randomize tier
+		if (tier == int.MaxValue) {
+			tier = Random.Range(1, 4);
+		}
+
 		// generate random seed
 		if (seed == int.MaxValue) RandomizeSeed();
 		// set seed
 		else Random.InitState(seed);
 
 		// create instance
-		WeaponBaseStats ws = new WeaponBaseStats();
+		WeaponBaseStats ws = WeaponBaseStats.Null;
 
 		// set stats
-		ws.damage.baseValue = 1;
-		ws.firerate.baseValue = 1;
-		ws.magsize = 1;
+		ws.damage.baseValue = RandomRange(m_baseDamage);
+		ws.firerate.baseValue = RandomRange(m_baseFirerate);
 
-		// TODO: stat distribution system
-		Debug.LogWarning("No stat distributions");
+		Vector2Int magsize = m_baseMagsize;
+		magsize.x /= m_magIterSize;
+		magsize.y /= m_magIterSize;
+		ws.magsize = RandomRange(magsize) * m_magIterSize;
+
+		// stat distribution system
+		int points = RandomRange(m_weaponStatDistribution);
+		int first = (points / 2) + RandomRange(m_weaponStatDistributeRange);
+		if (first > points) first = points;
+		if (first < 0) first = 0;
+		ws.damage.baseValue = ws.damage.baseValue + first;
+		ws.firerate.baseValue = ws.firerate.baseValue + (points - first);
+
+		// tiers
+		while (tier > 0) {
+			int random = Random.Range(0, 2);
+
+			if (random == 0) {
+				CreateTierValue(ref ws.damage);
+			} else {
+				CreateTierValue(ref ws.firerate);
+			}
+
+			tier--;
+		}
 
 		// return
 		return ws;
+	}
+
+	private void CreateTierValue(ref WeaponBaseStats.StatScalars ss) {
+		StatScalingTier sst = (StatScalingTier)Random.Range((int)StatScalingTier.A, (int)StatScalingTier.D);
+		CharacterStatType cst = (CharacterStatType)Random.Range((int)CharacterStatType.Strength, (int)CharacterStatType.Stamina);
+
+		// add first tier
+		if (ss.firstTier == StatScalingTier.None) {
+			ss.firstTier = sst;
+			ss.firstStat = cst;
+		}
+		// add second tier
+		else if (ss.secondTier == StatScalingTier.None) {
+			ss.secondTier = sst;
+			ss.secondStat = cst;
+		}
+		// add third tier
+		else if (ss.thirdTier == StatScalingTier.None) {
+			ss.thirdTier = sst;
+			ss.thirdStat = cst;
+		}
+		// cant add fourth tier
 	}
 
 	private static void RandomizeSeed() {

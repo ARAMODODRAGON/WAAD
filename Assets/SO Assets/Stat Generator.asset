@@ -12,11 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2403824b76835a489c3a81c0eb0a734, type: 3}
   m_Name: Stat Generator
   m_EditorClassIdentifier: 
-  m_baseMaxHitpoints: 0
-  m_baseDamage: 0
-  m_baseFirerate: 0
-  m_baseMagsize: 0
-  m_tierAScalar: 0
-  m_tierBScalar: 0
-  m_tierCScalar: 0
-  m_tierDScalar: 0
+  m_characterStatDistribution: {x: 75, y: 100}
+  m_characterStatDistributeRange: {x: -5, y: 5}
+  m_baseMaxHitpoints: {x: 30, y: 70}
+  m_baseStrength: {x: 5, y: 10}
+  m_basePercision: {x: 5, y: 10}
+  m_baseTechsavvy: {x: 5, y: 10}
+  m_baseScience: {x: 5, y: 10}
+  m_baseWillpower: {x: 5, y: 10}
+  m_baseLuck: {x: 5, y: 10}
+  m_baseStamina: {x: 5, y: 10}
+  m_weaponStatDistribution: {x: 20, y: 30}
+  m_weaponStatDistributeRange: {x: -15, y: 15}
+  m_baseDamage: {x: 5, y: 10}
+  m_baseFirerate: {x: 5, y: 10}
+  m_baseMagsize: {x: 5, y: 50}
+  m_magIterSize: 5
+  m_tierAScalar: 2
+  m_tierBScalar: 1.6
+  m_tierCScalar: 1.3
+  m_tierDScalar: 1.1
