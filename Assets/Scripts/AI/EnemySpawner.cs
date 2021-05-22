@@ -10,6 +10,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private EnemyBase enemyToSpawn = null;
 
+    public LevelBase level; //The level in which the spawner resides
+
     void Start()
     {
         EnemyManager.instance.RegisterSpawner(enemySpawnerKey, this);
@@ -18,6 +20,10 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy()
     {
         if (enemyToSpawn)
-            Instantiate(enemyToSpawn, transform.position, transform.rotation);
+        {
+            EnemyBase e = Instantiate(enemyToSpawn, transform.position, transform.rotation);
+            if (e)
+                e.UpdateLevelData(level); //Pass in the level data for the enemy to know the limits of the room
+        }
     }
 }

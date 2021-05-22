@@ -12,6 +12,7 @@ public class EnemyBase : MonoBehaviour
 {
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
+    private DecisionCompBase decisionComp;
     public EnemyStats stats;
     private bool bActive = false;
     private Vector2 destination = new Vector2(0.0f, 0.0f);
@@ -29,4 +30,9 @@ public class EnemyBase : MonoBehaviour
 
     //TODO
     //Add decision component
+
+    public void UpdateLevelData(LevelBase level_)
+    {
+
+    }
 }
