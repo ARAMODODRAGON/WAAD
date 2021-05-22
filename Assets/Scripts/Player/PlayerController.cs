@@ -10,16 +10,18 @@ public class PlayerController : MonoBehaviour
 
 	Vector2 moveDir;
 
-	bool hasShot;
+	bool hasShot = false;
 	// gameObject prefab
 	[SerializeField] GameObject bullet;
 
 	[SerializeField] int testFireRate;
+	float timerCurrent;
 	// Start is called before the first frame update
 	void Start()
     {
 		rb = GetComponent<Rigidbody2D>();
-    }
+		timerCurrent = 1.0f - ((float)testFireRate / 60.0f);
+	}
 
     // Update is called once per frame
     void Update()
@@ -59,19 +61,23 @@ public class PlayerController : MonoBehaviour
 	{
 		if (!hasShot)
 		{
-			// start the timer
-			float timer = (float)testFireRate / 60.0f;
-			timer -= Time.deltaTime;
-
-			if (timer <= 0)
-			{
-				hasShot = true;
-			}
-
+			Debug.Log("Shot");
+			//Instantiate(bullet, transform.position, Quaternion.identity);
+			hasShot = true;
 		}
 		else
 		{
-			// spawn a projectile
+			// start the timer
+
+			timerCurrent -= Time.deltaTime;
+
+			if (timerCurrent <= 0)
+			{
+				timerCurrent = 1.0f - ((float)testFireRate / 60.0f);
+				hasShot = false;
+			}
 		}
+
+
 	}
 }
