@@ -21,12 +21,19 @@ public class ProjectileBase : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        Vector2 movementVec = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y) + direction * speed * Time.deltaTime;
-        rigidBody.MovePosition(movementVec);
+        if (rigidBody)
+        {
+            Vector2 movementVec = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y) + direction * speed * Time.deltaTime;
+            rigidBody.MovePosition(movementVec);
+        }
     }
 
     public void UpdateProjectileParameters(float speed_, float damage_, Vector2 direction_, PlayerController playerRef_ = null, bool bHoming_ = false)
     {
-
+        speed = speed_;
+        damage = damage_;
+        direction = direction_;
+        playerRef = playerRef_;
+        bHoming = bHoming_;
     }
 }
