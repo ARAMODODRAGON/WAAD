@@ -15,15 +15,5 @@ public class DecisionCompBase : MonoBehaviour
         level = level_;
     }
 
-    public bool IsDestinationWithinRange(Vector2 dest_)
-    {
-        //Make sure whatever the desitnation is, it is within the room boundaries
-        if(level)
-        {
-            if (dest_.x >= level.min.transform.position.x && dest_.y >= level.min.transform.position.y
-                && dest_.x <= level.max.transform.position.x && dest_.y <= level.max.transform.position.y)
-                return true;
-        }
-        return false;
-    }
+
 }
