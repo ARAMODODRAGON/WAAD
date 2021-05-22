@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_statGenerator: {fileID: 11400000, guid: e69b75d886453b04db3dd9eb96fb27cc, type: 2}
+  regenerate: 1
   lockSeed: 0
   seed: 0
   charStats:

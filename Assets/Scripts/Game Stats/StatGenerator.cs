@@ -47,8 +47,8 @@ public class StatGenerator : ScriptableObject {
 
 	[Header("Weapon Base Stats")]
 
-	[SerializeField] private Vector2Int m_weaponStatDistribution;
-	[SerializeField] private Vector2Int m_weaponStatDistributeRange;
+	//[SerializeField] private Vector2Int m_weaponStatDistribution;
+	//[SerializeField] private Vector2Int m_weaponStatDistributeRange;
 	[SerializeField] private Vector2Int m_baseDamage;
 	[SerializeField] private Vector2Int m_baseFirerate;
 	[SerializeField] private Vector2Int m_baseMagsize;
@@ -60,6 +60,10 @@ public class StatGenerator : ScriptableObject {
 	[SerializeField] private float m_tierBScalar;
 	[SerializeField] private float m_tierCScalar;
 	[SerializeField] private float m_tierDScalar;
+
+	[Space]
+	[SerializeField] private WeaponBaseStats m_basicWeapon = WeaponBaseStats.Null;
+	public WeaponBaseStats BasicWeapon => m_basicWeapon;
 
 	// get the scalar value for the given tier
 	public float TierValue(StatScalingTier tier) {
@@ -174,8 +178,11 @@ public class StatGenerator : ScriptableObject {
 		WeaponBaseStats ws = WeaponBaseStats.Null;
 
 		// set stats
-		ws.damage.baseValue = RandomRange(m_baseDamage);
 		ws.firerate.baseValue = RandomRange(m_baseFirerate);
+		int damage = RandomRange(m_baseDamage) / 2;
+		if (damage == 0) damage++;
+		ws.damage.baseValue = damage + Mathf.FloorToInt(damage *
+			(1f - ((float)ws.firerate.baseValue / (float)m_baseFirerate.y)));
 
 		Vector2Int magsize = m_baseMagsize;
 		magsize.x /= m_magIterSize;
@@ -183,12 +190,12 @@ public class StatGenerator : ScriptableObject {
 		ws.magsize = RandomRange(magsize) * m_magIterSize;
 
 		// stat distribution system
-		int points = RandomRange(m_weaponStatDistribution);
-		int first = (points / 2) + RandomRange(m_weaponStatDistributeRange);
-		if (first > points) first = points;
-		if (first < 0) first = 0;
-		ws.damage.baseValue = ws.damage.baseValue + first;
-		ws.firerate.baseValue = ws.firerate.baseValue + (points - first);
+		//int points = RandomRange(m_weaponStatDistribution);
+		//int first = (points / 2) + RandomRange(m_weaponStatDistributeRange);
+		//if (first > points) first = points;
+		//if (first < 0) first = 0;
+		//ws.damage.baseValue = ws.damage.baseValue + first;
+		//ws.firerate.baseValue = ws.firerate.baseValue + (points - first);
 
 		// tiers
 		while (tier > 0) {

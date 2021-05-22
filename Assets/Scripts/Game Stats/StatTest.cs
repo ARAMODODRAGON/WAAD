@@ -6,14 +6,16 @@ public class StatTest : MonoBehaviour {
 
 	[SerializeField] private StatGenerator m_statGenerator;
 
+	public bool regenerate = false;
+	[Space]
 	public bool lockSeed;
 	public int seed;
 	public CharacterStats charStats;
-	[Space()]
+	[Space]
 	public bool randomizeWeaponTier;
 	[Range(1, 3)] public int weaponTier = 1;
 	public WeaponBaseStats weaponBaseStats;
-	[Space()]
+	[Space]
 	public WeaponStats weaponStats;
 
 	private void Calc() {
@@ -29,9 +31,13 @@ public class StatTest : MonoBehaviour {
 
 	private void Awake() {
 		Calc();
+		regenerate = false;
 	}
 
 	private void Update() {
-		if (Input.GetKeyDown(KeyCode.F)) Calc();
+		if (regenerate) {
+			regenerate = false;
+			Calc();
+		}
 	}
 }

@@ -22,13 +22,31 @@ MonoBehaviour:
   m_baseWillpower: {x: 5, y: 10}
   m_baseLuck: {x: 5, y: 10}
   m_baseStamina: {x: 5, y: 10}
-  m_weaponStatDistribution: {x: 20, y: 30}
-  m_weaponStatDistributeRange: {x: -15, y: 15}
-  m_baseDamage: {x: 5, y: 10}
-  m_baseFirerate: {x: 5, y: 10}
+  m_weaponStatDistribution: {x: 0, y: 30}
+  m_weaponStatDistributeRange: {x: -8, y: 0}
+  m_baseDamage: {x: 5, y: 20}
+  m_baseFirerate: {x: 1, y: 20}
   m_baseMagsize: {x: 5, y: 50}
   m_magIterSize: 5
   m_tierAScalar: 2
   m_tierBScalar: 1.6
   m_tierCScalar: 1.3
   m_tierDScalar: 1.1
+  m_basicWeapon:
+    damage:
+      baseValue: 10
+      firstTier: 255
+      firstStat: 255
+      secondTier: 255
+      secondStat: 255
+      thirdTier: 255
+      thirdStat: 255
+    firerate:
+      baseValue: 1
+      firstTier: 255
+      firstStat: 255
+      secondTier: 255
+      secondStat: 255
+      thirdTier: 255
+      thirdStat: 255
+    magsize: 10
