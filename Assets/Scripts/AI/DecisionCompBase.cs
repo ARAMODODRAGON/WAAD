@@ -29,9 +29,9 @@ public class DecisionCompBase : MonoBehaviour
     delegate void decisionDelegate();
     public List<Decisions> decisionMap = new List<Decisions>();
     private List<decisionDelegate> decisions = new List<decisionDelegate>();
-    private int decisionIndex = 0;
+    private int decisionIndex = -1;
 
-    private void Start()
+    private void Awake()
     {
         foreach (Decisions d in decisionMap)
         {
@@ -77,9 +77,11 @@ public class DecisionCompBase : MonoBehaviour
         {
             //Move the decision index a step to the right and call the next function
             decisionIndex++;
-            if (decisionIndex > decisions.Count)
+            if (decisionIndex >= decisions.Count)
                 decisionIndex = 0;
 
+
+            Debug.Log(decisionIndex);
             decisions[decisionIndex]();
         }
     }

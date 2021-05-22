@@ -32,15 +32,21 @@ public class EnemyBase : MonoBehaviour
     private Vector2 direction = new Vector2(0.0f, 0.0f);
     float distanceToDestination = 0.0f;
     public EnemyProjectile bullet;
+    private int enemyIndex;
 
     void Start()
     {
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         decisionComp = gameObject.GetComponent<DecisionCompBase>();
-        EnemyManager.instance.AddEnemyToList(this);
+        enemyIndex = EnemyManager.instance.AddEnemyToList(this);
+        decisionComp.NextStep();
     }
 
+    private void OnDestroy()
+    {
+        EnemyManager.instance.RemoveEnemy(enemyIndex);
+    }
     private void Update()
     {
         if (decisionComp.GetTarget())
@@ -48,7 +54,9 @@ public class EnemyBase : MonoBehaviour
             direction = decisionComp.GetTarget().transform.position - gameObject.transform.position;
             distanceToDestination = direction.magnitude;
             direction.Normalize();
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), stats.rotationSpeed * Time.deltaTime);
+            Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), stats.rotationSpeed * Time.deltaTime);
+            rot.y = transform.rotation.y;
+            transform.rotation = rot;
         }
         else 
         {
@@ -135,5 +143,15 @@ public class EnemyBase : MonoBehaviour
     {
         if (decisionComp)
             decisionComp.UpdateLevel(level_);
+    }
+
+    public void TakeDamage(int damage_)
+    {
+        stats.health -= damage_;
+        if(stats.health <= 0)
+        {
+            //TODO
+            Destroy(gameObject);
+        }
     }
 }
