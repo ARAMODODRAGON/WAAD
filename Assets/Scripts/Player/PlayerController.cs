@@ -9,6 +9,12 @@ public class PlayerController : MonoBehaviour
 	public Rigidbody2D rb { get; private set; }
 
 	Vector2 moveDir;
+
+	bool hasShot;
+	// gameObject prefab
+	[SerializeField] GameObject bullet;
+
+	[SerializeField] int testFireRate;
 	// Start is called before the first frame update
 	void Start()
     {
@@ -34,7 +40,11 @@ public class PlayerController : MonoBehaviour
 		moveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
 		//handle shooting
-		//if()
+		if (Input.GetButton("Jump"))
+		{
+			HandleShooting();
+		}
+
 	}
 
 	void HandleMovement()
@@ -42,6 +52,26 @@ public class PlayerController : MonoBehaviour
 		if (rb != null)
 		{
 			rb.velocity = moveDir * speed * Time.fixedDeltaTime;
+		}
+	}
+
+	void HandleShooting()
+	{
+		if (!hasShot)
+		{
+			// start the timer
+			float timer = (float)testFireRate / 60.0f;
+			timer -= Time.deltaTime;
+
+			if (timer <= 0)
+			{
+				hasShot = true;
+			}
+
+		}
+		else
+		{
+			// spawn a projectile
 		}
 	}
 }
