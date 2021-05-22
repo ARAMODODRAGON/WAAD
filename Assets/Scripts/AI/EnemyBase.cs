@@ -7,6 +7,7 @@ public struct EnemyStats
     public int health;
     public int damage;
     public float speed;
+    public float rotationSpeed;
 }
 public class EnemyBase : MonoBehaviour
 {
@@ -22,6 +23,16 @@ public class EnemyBase : MonoBehaviour
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         EnemyManager.instance.AddEnemyToList(this);
+    }
+
+    private void Update()
+    {
+        if (EnemyManager.instance.playerRef)
+        {
+            Vector2 dir = EnemyManager.instance.playerRef.transform.position - gameObject.transform.position;
+            dir.Normalize();
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), stats.rotationSpeed * Time.deltaTime);
+        }
     }
 
     void FixedUpdate()
