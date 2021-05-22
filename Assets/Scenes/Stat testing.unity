@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04518fbf2a72fcf499223735d82490f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statGenerator: {fileID: 11400000, guid: e69b75d886453b04db3dd9eb96fb27cc, type: 2}
+  useSeed: 0
+  seed: 0
   charStats:
     maxHitpoints: 0
     strength: 0
@@ -161,12 +164,13 @@ MonoBehaviour:
     willpower: 0
     luck: 0
     stamina: 0
+  weaponTier: 1
   weaponBaseStats:
     damage:
       baseValue: 3
       firstTier: 3
       firstStat: 3
-      secondTier: 4
+      secondTier: 3
       secondStat: 5
       thirdTier: 1
       thirdStat: 2
@@ -175,7 +179,7 @@ MonoBehaviour:
       firstTier: 3
       firstStat: 7
       secondTier: 2
-      secondStat: 8
+      secondStat: 2
       thirdTier: 0
       thirdStat: 0
     magsize: 0
