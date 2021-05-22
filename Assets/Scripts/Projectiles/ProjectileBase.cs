@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileBase : MonoBehaviour
 {
     private Rigidbody2D rigidBody;
+    private SpriteRenderer spriteRenderer;
     private float speed = 0.0f;
     private float damage = 0.0f;
     private Vector2 direction = new Vector2(0.0f, 0.0f);
@@ -12,12 +13,13 @@ public class ProjectileBase : MonoBehaviour
     private bool bHoming = false;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         Vector2 movementVec = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y) + direction * speed * Time.deltaTime;
         rigidBody.MovePosition(movementVec);
