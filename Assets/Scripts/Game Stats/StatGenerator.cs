@@ -237,7 +237,7 @@ public class StatGenerator : ScriptableObject {
 	}
 
 	public string GenerateDescription(CharacterStats cs) {
-		string desc = "";
+		string desc;
 		for (int i = (int)CharacterStatType.MaxHitpoints; i < cs.Count; i++) {
 			desc += $"{(CharacterStatType)i}: {cs[i]}\n";
 		}
