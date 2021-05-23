@@ -170,7 +170,7 @@ MonoBehaviour:
     damage: 10
     speed: 1.5
     rotationSpeed: 3
-    attackRadius: 5
+    attackRadius: 8
     fireRate: 1
     ammo: 4
     shotsSoFar: 0
