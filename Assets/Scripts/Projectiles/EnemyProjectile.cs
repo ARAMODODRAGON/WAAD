@@ -8,11 +8,19 @@ public class EnemyProjectile : ProjectileBase
     {
         if (col != null && col != this)
         {
-            PlayerController pc_ = col.GetComponent<PlayerController>();
-            if(pc_)
+            if (col.CompareTag("Player"))
             {
-                //TODO
-                //Inflict damage
+                PlayerController pc_ = col.GetComponent<PlayerController>();
+                if (pc_)
+                {
+                    //Inflict damage
+                    pc_.TakeDamage(damage);
+                    Destroy(gameObject);
+                }
+            }
+            else if(!col.CompareTag("Enemy") && !col.CompareTag("EnemyProj"))
+            {
+                Destroy(gameObject);
             }
         }
     }

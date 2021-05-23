@@ -6,12 +6,16 @@ public class PlayerProjectile : ProjectileBase
 {
 	private void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.CompareTag("Enemy") && col != null && col != this)
+		if (col != null && col != this)
 		{
-			EnemyBase em = col.GetComponent<EnemyBase>();
-			if (em != null)
+			if (col.CompareTag("Enemy"))
 			{
-				em.TakeDamage(damage);
+				EnemyBase em = col.GetComponent<EnemyBase>();
+				if (em != null)
+				{
+					em.TakeDamage(damage);
+					Destroy(gameObject);
+				}
 			}
 		}
 	}

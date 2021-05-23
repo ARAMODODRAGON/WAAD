@@ -236,6 +236,29 @@ public class StatGenerator : ScriptableObject {
 		// cant add fourth tier
 	}
 
+	public string GenerateDescription(CharacterStats cs) {
+		string desc = "";
+		for (int i = (int)CharacterStatType.MaxHitpoints; i < cs.Count; i++) {
+			desc += $"{(CharacterStatType)i}: {cs[i]}\n";
+		}
+		return desc;
+	}
+
+	public static string GetShortendName(CharacterStatType cst) {
+		switch (cst) {
+			case CharacterStatType.MaxHitpoints: return "MHP";
+			case CharacterStatType.Strength: return "STR";
+			case CharacterStatType.Percision: return "PRC";
+			case CharacterStatType.Techsavvy: return "TCS";
+			case CharacterStatType.Science: return "SCI";
+			case CharacterStatType.Willpower: return "WIL";
+			case CharacterStatType.Luck: return "LCK";
+			case CharacterStatType.Stamina: return "STA";
+			default: break;
+		}
+		return null;
+	}
+
 	private static void RandomizeSeed() {
 		Random.InitState(Time.frameCount + Random.Range(int.MinValue, int.MaxValue));
 	}
