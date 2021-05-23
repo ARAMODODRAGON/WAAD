@@ -52,10 +52,11 @@ public class EnemyBase : MonoBehaviour
         {
             direction = decisionComp.GetTarget().transform.position - gameObject.transform.position;
             distanceToDestination = direction.magnitude;
+            transform.up = direction;
             direction.Normalize();
-            Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), stats.rotationSpeed * Time.deltaTime);
-            rot.y = transform.rotation.y;
-            transform.rotation = rot;
+           // Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), stats.rotationSpeed * Time.deltaTime);
+            //rot.y = transform.rotation.y;
+           // transform.rotation = rot;
         }
         else 
         {
@@ -139,6 +140,7 @@ public class EnemyBase : MonoBehaviour
 
     public void TakeDamage(int damage_)
     {
+        Debug.LogError("Taken damage");
         stats.health -= damage_;
         if(stats.health <= 0)
         {

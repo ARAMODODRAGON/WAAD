@@ -14,6 +14,7 @@ public class PlayerProjectile : ProjectileBase
 				if (em != null)
 				{
 					em.TakeDamage(damage);
+					Destroy(gameObject);
 				}
 			}
 		}
