@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
 	private WeaponBaseStats weaponBaseStats = WeaponBaseStats.Null;
 	private WeaponStats weaponStats = WeaponStats.Null;
 
+	private int health;
+
 	private void Awake()
 	{
 		characterStats = statGenerator.GenerateCharacter();
@@ -43,11 +45,13 @@ public class PlayerController : MonoBehaviour
 	void Start()
     {
 		rb = GetComponent<Rigidbody2D>();
-		timerCurrent = 1.0f - ((float)testFireRate / 60.0f);
+		timerCurrent = 1.0f - ((float)weaponStats.firerate / 60.0f);
 		halfSpeed = speed / 2.0f;
 
 		testShotsCurrent = testShots;
 		currentReloadTime = testReloadRate;
+
+		health = characterStats.maxHitpoints;
 	}
 
     // Update is called once per frame
@@ -101,7 +105,7 @@ public class PlayerController : MonoBehaviour
 			GameObject g = Instantiate(bullet, transform.position, Quaternion.identity);
 
 			Vector3 mouseScreenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			g.GetComponent<PlayerProjectile>().UpdateProjectileParameters(bulletSpeed, weaponStats.damage, new Vector2(mouseScreenPoint.x - transform.position.x, mouseScreenPoint.y - transform.position.y));
+			g.GetComponent<PlayerProjectile>().UpdateProjectileParameters(bulletSpeed, weaponStats.damage, new Vector2(mouseScreenPoint.x - transform.position.x, mouseScreenPoint.y - transform.position.y), this);
 			hasShot = true;
 		}
 		else
@@ -111,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
 			if (timerCurrent <= 0)
 			{
-				timerCurrent = 1.0f - ((float)testFireRate / 60.0f);
+				timerCurrent = 1.0f - ((float)weaponStats.firerate / 60.0f);
 				hasShot = false;
 			}
 		}
