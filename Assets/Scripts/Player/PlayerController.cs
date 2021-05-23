@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 		timerCurrent = 1.0f - ((float)weaponStats.firerate / 60.0f);
 		halfSpeed = speed / 2.0f;
 
-		testShotsCurrent = testShots;
+		testShotsCurrent = weaponStats.magsize;
 		currentReloadTime = testReloadRate;
 
 		health = characterStats.maxHitpoints;
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
 			if (currentReloadTime <= 0)
 			{
 				reloading = false;
-				testShotsCurrent = testShots;
+				testShotsCurrent = weaponStats.magsize;
 				currentReloadTime = testReloadRate;
 			}
 		}
@@ -173,7 +173,16 @@ public class PlayerController : MonoBehaviour
 
 	public void TakeDamage(int damage_)
 	{
-
+		// if the hit doesn't kill the player
+		if (health - damage_ > 0)
+		{
+			health -= damage_;
+		}
+		else
+		{
+			// TO DO:
+			// handle game over stuff
+		}
 	}
 
 	public void SetBaseStats(CharacterStats characterStats_, WeaponBaseStats weaponBaseStats_)
