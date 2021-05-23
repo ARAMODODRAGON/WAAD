@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField] int testFireRate;
 	[SerializeField] float testReloadRate;
+	[SerializeField] float bulletSpeed;
 	float currentReloadTime;
 	[SerializeField] int testShots;
 	int testShotsCurrent;
@@ -25,6 +26,19 @@ public class PlayerController : MonoBehaviour
 
 	bool aiming = false;
 	bool reloading = false;
+
+	[SerializeField] private StatGenerator statGenerator = null;
+	private CharacterStats characterStats = CharacterStats.Null;
+	private WeaponBaseStats weaponBaseStats = WeaponBaseStats.Null;
+	private WeaponStats weaponStats = WeaponStats.Null;
+
+	private void Awake()
+	{
+		characterStats = statGenerator.GenerateCharacter();
+		weaponBaseStats = statGenerator.BasicWeapon;
+		weaponStats = statGenerator.Calculate(characterStats, weaponBaseStats);
+	}
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -84,7 +98,10 @@ public class PlayerController : MonoBehaviour
 		{
 			Debug.Log("Shot");
 			testShotsCurrent--;
-			//Instantiate(bullet, transform.position, Quaternion.identity);
+			GameObject g = Instantiate(bullet, transform.position, Quaternion.identity);
+
+			Vector3 mouseScreenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			g.GetComponent<PlayerProjectile>().UpdateProjectileParameters(bulletSpeed, weaponStats.damage, new Vector2(mouseScreenPoint.x - transform.position.x, mouseScreenPoint.y - transform.position.y));
 			hasShot = true;
 		}
 		else
@@ -140,7 +157,16 @@ public class PlayerController : MonoBehaviour
 				currentReloadTime = testReloadRate;
 			}
 		}
+	}
 
+	public void TakeDamage(int damage_)
+	{
 
+	}
+
+	public void SetBaseStats(CharacterStats characterStats_, WeaponBaseStats weaponBaseStats_)
+	{
+		characterStats = characterStats_;
+		weaponBaseStats = weaponBaseStats_;
 	}
 }

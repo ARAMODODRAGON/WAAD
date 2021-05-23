@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
 {
-    private Rigidbody2D rigidBody;
-    private SpriteRenderer spriteRenderer;
-    private float speed = 0.0f;
-    private int damage = 0;
-    private Vector2 direction = new Vector2(0.0f, 0.0f);
-    private PlayerController playerRef = null;
-    private bool bHoming = false;
+	protected Rigidbody2D rigidBody;
+	protected SpriteRenderer spriteRenderer;
+	protected float speed = 0.0f;
+    protected int damage = 0;
+	protected Vector2 direction = new Vector2(0.0f, 0.0f);
+	protected PlayerController playerRef = null;
+	protected bool bHoming = false;
 
     // Start is called before the first frame update
     protected void Start()
