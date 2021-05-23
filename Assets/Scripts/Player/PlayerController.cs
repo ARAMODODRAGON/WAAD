@@ -168,5 +168,6 @@ public class PlayerController : MonoBehaviour
 	{
 		characterStats = characterStats_;
 		weaponBaseStats = weaponBaseStats_;
+		weaponStats = statGenerator.Calculate(characterStats, weaponBaseStats);
 	}
 }

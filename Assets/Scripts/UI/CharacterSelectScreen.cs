@@ -30,6 +30,9 @@ public class CharacterSelectScreen : MonoBehaviour {
 			return;
 		}
 
+		// temporarily disable the player
+		m_player.gameObject.SetActive(false);
+
 		// generate characters
 		m_characterA = m_statGenerator.GenerateCharacter();
 		m_textA.text = m_statGenerator.GenerateDescription(m_characterA);
@@ -48,18 +51,20 @@ public class CharacterSelectScreen : MonoBehaviour {
 	}
 
 	private void SelectA() {
-		// TODO
-		Debug.Log("A was selected");
+		SetCharacter(m_characterA);
 	}
 
 	private void SelectB() {
-		// TODO
-		Debug.Log("B was selected");
+		SetCharacter(m_characterB);
 	}
 
 	private void SelectC() {
-		// TODO
-		Debug.Log("C was selected");
+		SetCharacter(m_characterC);
+	}
+
+	private void SetCharacter(CharacterStats cs) {
+		m_player.gameObject.SetActive(true);
+		m_player.SetBaseStats(cs, m_statGenerator.BasicWeapon);
 	}
 
 }
