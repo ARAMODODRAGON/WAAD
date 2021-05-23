@@ -21,7 +21,6 @@ public struct EnemyStats
     public float reloadTime; //How long to wait before shooting again
     public BulletsPattern pattern;
     public float bulletSpeed;
-    public float bulletInitializationDistance; //How far away from the enemy's body does the bullet instantiate?
 }
 public class EnemyBase : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class EnemyBase : MonoBehaviour
     private DecisionCompBase decisionComp;
     public EnemyStats stats;
     private Vector2 direction = new Vector2(0.0f, 0.0f);
-    float distanceToDestination = 0.0f;
+    float distanceToDestination = 1000.0f;
     public EnemyProjectile bullet;
     private int enemyIndex;
 
@@ -87,40 +86,33 @@ public class EnemyBase : MonoBehaviour
     {
         //Instantiating the bullets
         EnemyProjectile proj_;
+        Vector2 pos0 = gameObject.transform.position;
         switch (stats.pattern)
         {
             case BulletsPattern.SINGLE:
-                Vector2 pos0 = gameObject.transform.position + gameObject.transform.forward * stats.bulletInitializationDistance;
+                
                 proj_ = Instantiate<EnemyProjectile>(bullet, pos0, gameObject.transform.rotation);
                 if (proj_)
-                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, gameObject.transform.forward);
+                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, direction);
                 break;
             case BulletsPattern.DOUBLE:
-                Vector2 pos1 = gameObject.transform.position + gameObject.transform.forward * stats.bulletInitializationDistance;
-                Vector2 pos2 = pos1;
-                pos2.y += 10.0f;
-                proj_ = Instantiate<EnemyProjectile>(bullet, pos1, gameObject.transform.rotation);
+                proj_ = Instantiate<EnemyProjectile>(bullet, pos0, gameObject.transform.rotation);
                 if (proj_)
-                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, gameObject.transform.forward);
-                proj_ = Instantiate<EnemyProjectile>(bullet, pos2, gameObject.transform.rotation);
+                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, direction);
+                proj_ = Instantiate<EnemyProjectile>(bullet, pos0, gameObject.transform.rotation);
                 if (proj_)
-                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, gameObject.transform.forward);
+                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, new Vector2(direction.x,direction.y + 0.1f));
                 break;
             case BulletsPattern.TRIPLE:
-
-                Vector2 pos3 = gameObject.transform.position + gameObject.transform.forward * stats.bulletInitializationDistance;
-                Vector2 pos4 = pos3;
-                pos4.y += 10.0f;
-                proj_ = Instantiate<EnemyProjectile>(bullet, pos3, gameObject.transform.rotation);
+                proj_ = Instantiate<EnemyProjectile>(bullet, pos0, gameObject.transform.rotation);
                 if (proj_)
-                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, gameObject.transform.forward);
-                proj_ = Instantiate<EnemyProjectile>(bullet, pos4, gameObject.transform.rotation);
+                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, direction);
+                proj_ = Instantiate<EnemyProjectile>(bullet, pos0, gameObject.transform.rotation);
                 if (proj_)
-                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, gameObject.transform.forward);
-                pos4.y -= 20.0f;
-                proj_ = Instantiate<EnemyProjectile>(bullet, pos4, gameObject.transform.rotation);
+                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, new Vector2(direction.x, direction.y + 0.1f));
+                proj_ = Instantiate<EnemyProjectile>(bullet, pos0, gameObject.transform.rotation);
                 if (proj_)
-                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, gameObject.transform.forward);
+                    proj_.UpdateProjectileParameters(stats.bulletSpeed, stats.damage, new Vector2(direction.x, direction.y - 0.1f));
 
                 break;
         }
