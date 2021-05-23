@@ -140,7 +140,6 @@ public class EnemyBase : MonoBehaviour
 
     public void TakeDamage(int damage_)
     {
-        Debug.LogError("Taken damage");
         stats.health -= damage_;
         if(stats.health <= 0)
         {

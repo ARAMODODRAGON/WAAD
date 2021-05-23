@@ -11,12 +11,14 @@ public class ProjectileBase : MonoBehaviour
 	protected Vector2 direction = new Vector2(0.0f, 0.0f);
 	protected PlayerController playerRef = null;
 	protected bool bHoming = false;
+    public float lifeSpan = 3.0f;
 
     // Start is called before the first frame update
     protected void Start()
     {
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        Invoke("DelayedDestroy", lifeSpan);
     }
 
     protected void FixedUpdate()
@@ -35,5 +37,10 @@ public class ProjectileBase : MonoBehaviour
         direction = direction_;
         playerRef = playerRef_;
         bHoming = bHoming_;
+    }
+
+    private void DelayedDestroy()
+    {
+
     }
 }

@@ -18,7 +18,7 @@ public class EnemyProjectile : ProjectileBase
                     Destroy(gameObject);
                 }
             }
-            else if(!col.CompareTag("Enemy"))
+            else if(!col.CompareTag("Enemy") && !col.CompareTag("EnemyProj"))
             {
                 Destroy(gameObject);
             }

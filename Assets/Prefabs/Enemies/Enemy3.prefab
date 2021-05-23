@@ -176,7 +176,7 @@ MonoBehaviour:
     shotsSoFar: 0
     reloadTime: 5
     pattern: 0
-    bulletSpeed: 20
+    bulletSpeed: 5
   bullet: {fileID: 6842258833050884811, guid: d7d2e98df5310674298b7a351de25c4d, type: 3}
 --- !u!114 &5795230569007337894
 MonoBehaviour:

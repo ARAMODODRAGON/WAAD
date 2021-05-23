@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
 	private WeaponBaseStats weaponBaseStats = WeaponBaseStats.Null;
 	private WeaponStats weaponStats = WeaponStats.Null;
 
+	public ReticleController rc;
+
 	private void Awake()
 	{
 		characterStats = statGenerator.GenerateCharacter();
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
 		testShotsCurrent = testShots;
 		currentReloadTime = testReloadRate;
+		Cursor.visible = false;
 	}
 
     // Update is called once per frame
@@ -121,6 +124,9 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetButton("Fire2") )
 		{
+			if(rc)
+				if (!rc.gameObject.activeSelf)
+					rc.gameObject.SetActive(true);
 
 			aiming = true;
 			//Vector2 objScreenPoint = Camera.main.ScreenToWorldPoint(transform.position);
@@ -134,6 +140,9 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
+			if (rc)
+				if (rc.gameObject.activeSelf)
+					rc.gameObject.SetActive(false);
 			aiming = false;
 			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up), 5.0f * Time.fixedDeltaTime);
 			currentSpeed = speed;
