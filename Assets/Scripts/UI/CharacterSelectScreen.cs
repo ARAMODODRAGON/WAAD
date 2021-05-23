@@ -65,6 +65,7 @@ public class CharacterSelectScreen : MonoBehaviour {
 	private void SetCharacter(CharacterStats cs) {
 		m_player.gameObject.SetActive(true);
 		m_player.SetBaseStats(cs, m_statGenerator.BasicWeapon);
+		gameObject.SetActive(false);
 	}
 
 }
